@@ -1,16 +1,11 @@
-<script>
-
-if(sessionStorage.getItem("auth") !== "true"){
-window.location.href = "login.html";
-}
-
-</script>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    if(sessionStorage.getItem("auth") !== "true"){
+        window.location.href = "login.html";
+    }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AN.Energy — AI Predictive Maintenance | Offshore Wind Intelligence</title>
