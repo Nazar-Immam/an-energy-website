@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AN.Energy Access</title>
+
+<style>
+body{
+    font-family: Inter, sans-serif;
+    background:#f7f9fb;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-box{
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    width:320px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ddd;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    background:#0f766e;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0d9488;
+}
+
+.error{
+    color:red;
+    font-size:14px;
+    display:none;
+}
+</style>
+
+</head>
+<body>
+
+<div class="login-box">
+
+<h2>AN.Energy Access</h2>
+
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p class="error" id="error">Invalid credentials</p>
+
+</div>
+
+<script>
+
+const USERNAME = "AN.Energy";
+const PASSWORD = "2026";
+
+function login(){
+
+const u = document.getElementById("username").value;
+const p = document.getElementById("password").value;
+
+if(u === USERNAME && p === PASSWORD){
+
+    sessionStorage.setItem("auth","true");
+    window.location.href = "index.html";
+
+}else{
+
+document.getElementById("error").style.display="block";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
