@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AN.Energy — AI Predictive Maintenance | Offshore Wind Intelligence</title>
+  <meta name="description" content="AN.Energy: AI-powered predictive maintenance platform for offshore wind turbines. Reduce downtime. Protect revenue." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Fonts loaded via CSS @import -->
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════════ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <div class="nav-logo-text">AN<span>.Energy</span></div>
+  </a>
+
+  <div class="nav-status">
+    <div class="nav-status-item">
+      <div class="status-dot"></div>
+      <span>LIVE TELEMETRY</span>
+    </div>
+    <div class="nav-status-item">
+      <div class="status-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber-glow)"></div>
+      <span>2 ALERTS</span>
+    </div>
+    <div class="nav-status-item">
+      <span>NORTH SEA FLEET · 12 TURBINES</span>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <div class="nav-time" id="navTime">00:00:00 UTC</div>
+    <a href="scottishpower.html" class="btn-scottishpower">
+      <span>⬡ NEXT </span>
+    </a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     ALERT TICKER
+══════════════════════════════════════════════ -->
+<div style="margin-top:56px">
+  <div class="alert-ticker">
+    <div class="ticker-label">⚠ ACTIVE ALERTS</div>
+    <div class="ticker-content">
+      T-05: Gearbox bearing vibration 8.2g (threshold: 5.0g) — IMMEDIATE INSPECTION REQUIRED &nbsp;|&nbsp;
+      T-03: Converter DC-link ripple 5.8% (threshold: 5.0%) — SCHEDULE MAINTENANCE &nbsp;|&nbsp;
+      T-08: Blade pitch actuator response degraded 340ms→890ms — MONITOR &nbsp;|&nbsp;
+      Fleet: Wind curtailment event at 23.4 m/s — PROTOCOL ACTIVE &nbsp;|&nbsp;
+      T-12: Transformer partial discharge event #0x4A2F — LOGGED &nbsp;|&nbsp;
+      System: Predictive model retrain complete — 94.2% accuracy — NOMINAL
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN WRAPPER
+══════════════════════════════════════════════ -->
+<div class="main-wrapper">
+
+  <!-- ══════════════════════════
+       SIMULATION SIDEBAR
+  ══════════════════════════ -->
+  <aside class="sim-sidebar">
+    <div class="sidebar-title">Simulation Controls</div>
+
+    <div class="sim-control">
+      <div class="sim-label">Wind Speed <span class="sim-value" id="sliderWindVal">12.0 m/s</span></div>
+      <input type="range" class="sim-slider" id="sliderWind" min="0" max="25" value="12" step="0.1" />
+    </div>
+
+    <div class="sim-control">
+      <div class="sim-label">Grid Voltage <span class="sim-value" id="sliderVoltageVal">33.0 kV</span></div>
+      <input type="range" class="sim-slider" id="sliderVoltage" min="28" max="38" value="33" step="0.1" />
+    </div>
+
+    <div class="sim-control">
+      <div class="sim-label">Ambient Temp <span class="sim-value" id="sliderTempVal">8.0 °C</span></div>
+      <input type="range" class="sim-slider" id="sliderTemp" min="-10" max="35" value="8" step="0.5" />
+    </div>
+
+    <div class="sim-control">
+      <div class="sim-label">Humidity <span class="sim-value" id="sliderHumidityVal">72%</span></div>
+      <input type="range" class="sim-slider" id="sliderHumidity" min="20" max="100" value="72" step="1" />
+    </div>
+
+    <div class="sim-control">
+      <div class="sim-label">Load Demand <span class="sim-value" id="sliderLoadVal">78%</span></div>
+      <input type="range" class="sim-slider" id="sliderLoad" min="10" max="100" value="78" step="1" />
+    </div>
+
+    <div class="sim-divider"></div>
+
+    <!-- Key Metrics -->
+    <div class="sidebar-metric">
+      <div class="sidebar-metric-label">Total Output</div>
+      <div class="sidebar-metric-value" id="metricTotalPower">49.5 <span class="sidebar-metric-unit">MW</span></div>
+    </div>
+
+    <div class="sidebar-metric">
+      <div class="sidebar-metric-label">Efficiency</div>
+      <div class="sidebar-metric-value" id="metricEfficiency" style="color:var(--cyan)">87.2 <span class="sidebar-metric-unit">%</span></div>
+    </div>
+
+    <div class="sidebar-metric">
+      <div class="sidebar-metric-label">Cost Avoided</div>
+      <div class="sidebar-metric-value" style="font-size:14px;color:var(--amber)" id="metricCostAvoided">£142,000</div>
+    </div>
+
+    <div class="sim-divider"></div>
+    <div class="sidebar-title" style="font-size:9px">Fleet Status</div>
+
+    <div class="turbine-status-mini" id="turbineMiniList">
+      <!-- Populated by JS -->
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════
+       DASHBOARD CONTENT
+  ══════════════════════════ -->
+  <main class="dashboard-content">
+
+    <!-- ——— Section: Fleet Overview ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Fleet Overview & Monitoring</div>
+    </div>
+
+    <div class="dash-row dash-row-1-2">
+
+      <!-- Fleet Health Gauge -->
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◈</span> Fleet Health Score</div>
+          <div class="panel-badge">OPERATIONAL</div>
+        </div>
+        <div class="gauge-container">
+          <canvas id="gaugeCanvas" width="200" height="140"></canvas>
+        </div>
+        <div class="metric-grid" style="margin-top:12px">
+          <div class="metric-card">
+            <div class="metric-label">Online</div>
+            <div class="metric-value green">10<span class="metric-unit">/12</span></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Capacity Factor</div>
+            <div class="metric-value cyan" id="metricCapFactor">41.8%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Wind Now</div>
+            <div class="metric-value cyan" id="metricWindNow">12.0 m/s</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Grid Freq</div>
+            <div class="metric-value green" id="metricGridFreq">50.012 Hz</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fleet Map -->
+      <div class="panel fade-in-up" style="padding:0;overflow:hidden">
+        <div style="padding:16px 16px 8px">
+          <div class="panel-header" style="margin-bottom:0">
+            <div class="panel-title"><span class="icon">⬡</span> North Sea Wind Farm — Live Map</div>
+            <div class="panel-badge">LIVE</div>
+          </div>
+        </div>
+        <canvas id="fleetMapCanvas" style="width:100%;height:240px;display:block"></canvas>
+      </div>
+    </div>
+
+    <!-- ——— Section: Energy Production ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Energy Production Analytics</div>
+    </div>
+
+    <div class="dash-row dash-row-3">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⚡</span> Expected vs Actual Output</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartEnergyProd"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">▼</span> Energy Loss (Fault-Attributed)</div>
+          <div class="panel-badge alert">-12.4 MWh</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartEnergyLoss"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◈</span> Daily Energy Output</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartDailyOutput"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ——— Section: Predictive Maintenance ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">AI Predictive Maintenance Intelligence</div>
+    </div>
+
+    <div class="dash-row dash-row-3">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⏳</span> Remaining Useful Life — T-05</div>
+          <div class="panel-badge warning">810 HRS</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartRUL"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⚠</span> Failure Probability Forecast</div>
+          <div class="panel-badge alert">38.4%</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartFailureProb"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">📉</span> Component Degradation Curve</div>
+        </div>
+        <div class="chart-wrap" style="height:130px">
+          <canvas id="chartDegradation"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ——— Section: Electrical Monitoring ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Electrical Systems Monitoring — Live</div>
+    </div>
+
+    <div class="dash-row dash-row-4">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⚡</span> Grid Voltage</div>
+          <div class="panel-badge">33.1 kV</div>
+        </div>
+        <div class="chart-wrap" style="height:100px">
+          <canvas id="chartVoltage"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">〰</span> Current</div>
+          <div class="panel-badge">421 A</div>
+        </div>
+        <div class="chart-wrap" style="height:100px">
+          <canvas id="chartCurrent"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◎</span> Frequency</div>
+          <div class="panel-badge">50.01 Hz</div>
+        </div>
+        <div class="chart-wrap" style="height:100px">
+          <canvas id="chartFrequency"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◈</span> Power Factor</div>
+          <div class="panel-badge">0.962</div>
+        </div>
+        <div class="chart-wrap" style="height:100px">
+          <canvas id="chartPowerFactor"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ——— Section: Environmental ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Environmental & Atmospheric Monitoring</div>
+    </div>
+
+    <div class="dash-row dash-row-1-1-2">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">🌊</span> Wind Speed Distribution</div>
+        </div>
+        <div class="chart-wrap" style="height:140px">
+          <canvas id="chartWindSpeed"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">🌡</span> Ambient Temperature</div>
+        </div>
+        <div class="chart-wrap" style="height:140px">
+          <canvas id="chartTemperature"></canvas>
+        </div>
+      </div>
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◎</span> Wind Direction Rose</div>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;height:160px">
+          <canvas id="windRoseCanvas" width="200" height="160"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ——— Section: Fault Detection ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Fault Detection & Signal Analysis</div>
+    </div>
+
+    <div class="dash-row dash-row-1-2">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⚠</span> Live Fault Feed</div>
+          <div class="panel-badge alert">5 ACTIVE</div>
+        </div>
+        <div class="fault-list" id="faultList"></div>
+      </div>
+      <div class="dash-row dash-row-2" style="gap:16px">
+        <div class="panel fade-in-up">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">📊</span> Harmonic Spectrum (FFT)</div>
+          </div>
+          <div class="chart-wrap" style="height:140px">
+            <canvas id="chartFFT"></canvas>
+          </div>
+        </div>
+        <div class="panel fade-in-up">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">〰</span> Vibration Signature — T-05</div>
+            <div class="panel-badge warning">ABNORMAL</div>
+          </div>
+          <div class="chart-wrap" style="height:140px">
+            <canvas id="chartVibration"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ——— Section: Maintenance Intelligence ——— -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Maintenance Intelligence & Planning</div>
+    </div>
+
+    <div class="dash-row dash-row-2-1">
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">£</span> Reactive vs Predictive Maintenance Cost</div>
+        </div>
+        <div class="chart-wrap" style="height:180px">
+          <canvas id="chartMaintCost"></canvas>
+        </div>
+      </div>
+
+      <div class="panel fade-in-up">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">📅</span> Maintenance Schedule</div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2026-03-18 · UPCOMING</div>
+              <div class="timeline-event">T-05 Gearbox Bearing</div>
+              <div class="timeline-detail">Emergency replacement — 810h RUL</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot amber"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2026-03-25 · PLANNED</div>
+              <div class="timeline-event">T-03 Converter Service</div>
+              <div class="timeline-detail">DC-link capacitor inspection</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot amber"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2026-04-10 · PLANNED</div>
+              <div class="timeline-event">T-08 Pitch Actuator</div>
+              <div class="timeline-detail">Hydraulic seal replacement</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2026-05-01 · SCHEDULED</div>
+              <div class="timeline-event">Fleet Annual Inspection</div>
+              <div class="timeline-detail">12 turbines · 5-day campaign</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════
+         DIGITAL TWIN SECTION
+    ══════════════════════════ -->
+    <div class="dash-section-header">
+      <div class="dash-section-label">Digital Twin — 3D Component Visualization</div>
+    </div>
+
+    <div class="panel fade-in-up" style="padding:0;overflow:hidden">
+      <div style="padding:16px 16px 8px;border-bottom:1px solid var(--border)">
+        <div class="panel-title"><span class="icon">⬡</span> Offshore Wind Turbine · Digital Twin · Hover Components for Health Data</div>
+      </div>
+      <div class="digital-twin-section" style="padding:16px;gap:16px">
+        <div style="position:relative">
+          <canvas id="twin-canvas"></canvas>
+          <div class="twin-tooltip" id="twinTooltip"></div>
+        </div>
+        <div class="twin-info-panel">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">
+            Component Health Status
+          </div>
+
+          <div class="component-health active" onclick="focusComponent('generator')">
+            <div class="ch-header">
+              <div class="ch-name">⚙ Generator</div>
+              <div class="ch-score" style="color:var(--green)">94%</div>
+            </div>
+            <div class="ch-bar-track">
+              <div class="ch-bar-fill" style="width:94%;background:var(--green);color:var(--green)"></div>
+            </div>
+            <div class="ch-details">
+              <div class="ch-detail">Temperature<span>68°C</span></div>
+              <div class="ch-detail">Speed<span>12.4 RPM</span></div>
+              <div class="ch-detail">Vibration<span>1.2 g</span></div>
+              <div class="ch-detail">Status<span style="color:var(--green)">NOMINAL</span></div>
+            </div>
+          </div>
+
+          <div class="component-health" onclick="focusComponent('converter')">
+            <div class="ch-header">
+              <div class="ch-name">⚡ Converter</div>
+              <div class="ch-score" style="color:var(--amber)">74%</div>
+            </div>
+            <div class="ch-bar-track">
+              <div class="ch-bar-fill" style="width:74%;background:var(--amber);color:var(--amber)"></div>
+            </div>
+            <div class="ch-details">
+              <div class="ch-detail">DC Voltage<span>690V</span></div>
+              <div class="ch-detail">Ripple<span style="color:var(--amber)">5.8%</span></div>
+              <div class="ch-detail">Temperature<span>82°C</span></div>
+              <div class="ch-detail">Status<span style="color:var(--amber)">WARNING</span></div>
+            </div>
+          </div>
+
+          <div class="component-health" onclick="focusComponent('transformer')">
+            <div class="ch-header">
+              <div class="ch-name">🔄 Transformer</div>
+              <div class="ch-score" style="color:var(--cyan)">88%</div>
+            </div>
+            <div class="ch-bar-track">
+              <div class="ch-bar-fill" style="width:88%;background:var(--cyan);color:var(--cyan)"></div>
+            </div>
+            <div class="ch-details">
+              <div class="ch-detail">Ratio<span>690V/33kV</span></div>
+              <div class="ch-detail">Load<span>78%</span></div>
+              <div class="ch-detail">Temperature<span>54°C</span></div>
+              <div class="ch-detail">Status<span style="color:var(--cyan)">NOMINAL</span></div>
+            </div>
+          </div>
+
+          <div style="padding:12px;background:var(--bg-glass);border:1px solid var(--border);margin-top:4px">
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase">AI Recommendation</div>
+            <div style="font-family:var(--font-body);font-size:12px;color:var(--text-secondary);line-height:1.6;font-weight:300">
+              Schedule Converter inspection within <span style="color:var(--amber);font-weight:600">14 days</span>. DC-link capacitor degradation detected. Predictive replacement prevents estimated <span style="color:var(--green);font-weight:600">£82,000</span> unplanned downtime.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FUNDING SECTION
+══════════════════════════════════════════════ -->
+<section class="funding-section" id="funding">
+  <div class="funding-title">Investment Opportunity</div>
+  <h2 class="funding-subtitle">Funding Progress — <span class="funding-amount">£1,000,000</span> Target</h2>
+
+  <div class="funding-bar-container">
+    <div class="funding-labels">
+      <div class="funding-raised">£1,000 Raised</div>
+      <div class="funding-goal">Goal: £1,000,000</div>
+    </div>
+    <div class="funding-bar-track">
+      <div class="funding-bar-fill" id="fundingFill" style="width:0%"></div>
+    </div>
+    <div class="funding-pct">1%</div>
+  </div>
+
+  <!-- <div class="funding-stats">
+    <div class="funding-stat">
+      <div class="funding-stat-value">12</div>
+      <div class="funding-stat-label">Investors</div>
+    </div>
+    <div class="funding-stat">
+      <div class="funding-stat-value">£28K</div>
+      <div class="funding-stat-label">Avg Investment</div>
+    </div>
+    <div class="funding-stat">
+      <div class="funding-stat-value">34d</div>
+      <div class="funding-stat-label">Days Remaining</div>
+    </div>
+    <div class="funding-stat">
+      <div class="funding-stat-value">£660K</div>
+      <div class="funding-stat-label">Still Available</div>
+    </div>
+  </div> -->
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TEAM SECTION
+══════════════════════════════════════════════ -->
+<section class="team-section" id="team">
+  <div class="section-title">The Team</div>
+  <h2 class="section-heading">Built by Engineers Who Understand Wind</h2>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">IM</div>
+      <div class="team-name">Immam</div>
+      <!-- <div class="team-role">AI & Machine Learning Lead</div> -->
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AS</div>
+      <div class="team-name">Asad</div>
+      <!-- <div class="team-role">Electrical Systems Engineer</div> -->
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AN</div>
+      <div class="team-name">Aniket</div>
+      <!-- <div class="team-role">Data Science & Analytics</div> -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CONTACT SECTION
+══════════════════════════════════════════════ -->
+
+
+<section class="contact-premium-section" id="contact">
+  <div class="contact-premium-container">
+    <h2 class="contact-premium-title">Connect With AN.Energy</h2>
+    <p class="contact-premium-subtitle">
+      We welcome collaboration, research partnerships, and industry conversations.
+    </p>
+
+    <div class="contact-premium-grid">
+      
+      <div class="contact-premium-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+        </div>
+        <h3>LinkedIn</h3>
+        <p>Follow our company updates and research progress.</p>
+        <a href="#" class="btn-contact-apple">View LinkedIn</a>
+      </div>
+
+
+      <div class="contact-premium-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+          </svg>
+        </div>
+        <h3>Email</h3>
+        <p>Contact the team directly for collaboration or inquiries.</p>
+        <a href="mailto:contact@an.energy" class="btn-contact-apple">Send Email</a>
+      </div>
+
+      <div class="contact-premium-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </div>
+        <h3>X / Twitter</h3>
+        <p>Follow for updates on offshore wind innovation and predictive maintenance.</p>
+        <a href="#" class="btn-contact-apple">View on X</a>
+      </div>
+
+      
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer-premium">
+  <p>© AN.Energy — Offshore wind lifecycle innovation</p>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/simulations.js"></script>
+<script>
+  function focusComponent(name) {
+    document.querySelectorAll('.component-health').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

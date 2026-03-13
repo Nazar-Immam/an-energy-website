@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AN.Energy × ScottishPower — Premium Consulting Report</title>
+  <link rel="stylesheet" href="css/scottishpower.css" />
+</head>
+<body>
+
+<nav class="sp-nav">
+  <div class="nav-left"></div>
+  
+  <a href="index.html" class="sp-logo">
+    AN<span>.Energy</span>
+  </a>
+  
+  <div class="nav-right">
+    <a href="index.html" class="btn-back">
+      View Dashboard
+    </a>
+  </div>
+</nav>
+
+<div class="lifecycle-tracker" id="lcTracker">
+  <div class="lt-track">
+    <div class="lt-step" data-step="construction">Construction</div>
+    <div class="lt-connector" id="conn-1"></div>
+    <div class="lt-step" data-step="operation">Operation</div>
+    <div class="lt-connector" id="conn-2"></div>
+    <div class="lt-step" data-step="decommissioning">Decommissioning</div>
+    <div class="lt-connector" id="conn-3"></div>
+    <div class="lt-step" data-step="conclusion">Conclusion</div>
+  </div>
+</div>
+
+<div class="floating-nav">
+  <div class="nav-dot active" data-target="hero" data-label="Hero"></div>
+  <div class="nav-dot" data-target="idea" data-label="Section 01: Idea"></div>
+  <div class="nav-dot" data-target="construction" data-label="Section 02: Construction"></div>
+  <div class="nav-dot" data-target="operation" data-label="Section 03: Operation"></div>
+  <div class="nav-dot" data-target="decommissioning" data-label="Section 04: Decommissioning"></div>
+  <div class="nav-dot" data-target="conclusion" data-label="Section 05: Conclusion"></div>
+  <div class="nav-dot" data-target="team" data-label="Section 06: Team"></div>
+</div>
+
+<!-- <section id="hero" class="section" style="text-align: center;">
+  <div class="container anim-trigger">
+    <div class="anim-fade-up">
+      <span class="consulting-label">Challenge Response</span>
+      <h1>ReWind Offshore Turbine</h1>
+      <p style="font-size: 1.25rem; max-width: 800px; margin: 0 auto 40px; color: var(--text-dark);">
+        "A circular, modular based offshore wind turbine specifically designed to cut cost, reduce carbon emission, Feasible and simplified end-of-life recovery."
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap;">
+        <div class="stagger" style="text-align: center;">
+          <h4 style="color: var(--accent-teal); margin-bottom: 4px;">Assemble</h4>
+          <p style="font-weight: 600; font-size: 0.9rem;">Quicker</p>
+        </div>
+        <div class="stagger" style="text-align: center;">
+          <h4 style="color: var(--accent-teal); margin-bottom: 4px;">Predict</h4>
+          <p style="font-weight: 600; font-size: 0.9rem;">Earlier</p>
+        </div>
+        <div class="stagger" style="text-align: center;">
+          <h4 style="color: var(--accent-teal); margin-bottom: 4px;">Recover</h4>
+          <p style="font-weight: 600; font-size: 0.9rem;">Faster</p>
+        </div>
+        <div class="stagger" style="text-align: center;">
+          <h4 style="color: var(--accent-teal); margin-bottom: 4px;">Discontinue</h4>
+          <p style="font-weight: 600; font-size: 0.9rem;">Cleaner</p>
+        </div>
+      </div>
+
+      <div class="badge-group stagger" style="justify-content: center;">
+        <div class="badge">Construction</div>
+        <div class="badge">Operation</div>
+        <div class="badge">Decommissioning</div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section id="hero" class="hero-section">
+  
+  <svg class="hero-anchor-left parallax-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="currentColor" stroke-width="0.5" fill="none">
+      <path d="M96,200 L104,200 L101.5,100 L98.5,100 Z"/>
+      <circle cx="100" cy="100" r="40" stroke-dasharray="2 4"/>
+      <circle cx="100" cy="100" r="70" stroke-dasharray="1 6"/>
+      <circle cx="100" cy="100" r="95" stroke-dasharray="4 8"/>
+      <g class="turbine-rotor">
+        <path d="M100,100 C105,60 110,20 100,5 C90,20 95,60 100,100" />
+        <path d="M100,100 C135,120 170,140 182,148 C168,155 135,140 100,100" />
+        <path d="M100,100 C65,120 30,140 18,148 C32,155 65,140 100,100" />
+        <circle cx="100" cy="100" r="3" fill="currentColor"/>
+      </g>
+    </g>
+  </svg>
+
+  <svg class="hero-anchor-right parallax-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="currentColor" stroke-width="0.5" fill="none">
+      <polyline points="20,160 50,110 110,130 160,60 190,80" stroke-dasharray="2 4"/>
+      <circle cx="20" cy="160" r="3" fill="currentColor"/>
+      <circle cx="50" cy="110" r="3" fill="currentColor"/>
+      <circle cx="110" cy="130" r="4" fill="currentColor"/>
+      <circle cx="160" cy="60" r="3" fill="currentColor"/>
+      <circle cx="190" cy="80" r="2" fill="currentColor"/>
+      <rect x="120" y="30" width="40" height="20" rx="2" stroke-dasharray="1 3"/>
+      <rect x="20" y="70" width="30" height="15" rx="2" stroke-dasharray="1 3"/>
+      <circle cx="100" cy="100" r="50" stroke-width="0.2" stroke-dasharray="4 4"/>
+      <circle cx="110" cy="130" r="10" stroke-width="0.2" opacity="0.5"/>
+      <circle cx="110" cy="130" r="15" stroke-width="0.1" opacity="0.2"/>
+    </g>
+  </svg>
+
+  <div class="hero-content container anim-trigger">
+    <div class="anim-fade-up">
+      <span class="consulting-label">Challenge Response</span>
+      
+      <h1 class="hero-title">ReWind Offshore Turbine</h1>
+      
+      <p class="hero-subtitle">
+        "A circular, modular based offshore wind turbine specifically designed to cut cost, reduce carbon emission, Feasible and simplified end-of-life recovery."
+      </p>
+
+      <div class="hero-features-row stagger-list">
+        <div class="energy-line-container"><div class="energy-line"></div></div>
+        
+        <div class="feature-card-premium stagger">
+          <div class="feature-icon">⚙️</div>
+          <h4>Assemble</h4>
+          <p>Quicker</p>
+        </div>
+        <div class="feature-card-premium stagger">
+          <div class="feature-icon">📈</div>
+          <h4>Predict</h4>
+          <p>Earlier</p>
+        </div>
+        <div class="feature-card-premium stagger">
+          <div class="feature-icon">🏗️</div>
+          <h4>Recover</h4>
+          <p>Faster</p>
+        </div>
+        <div class="feature-card-premium stagger">
+          <div class="feature-icon">🍃</div>
+          <h4>Discontinue</h4>
+          <p>Cleaner</p>
+        </div>
+      </div>
+
+      <div class="hero-buttons stagger">
+        <div class="btn-apple">Construction</div>
+        <div class="btn-apple">Operation</div>
+        <div class="btn-apple">Decommissioning</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator anim-fade-up" style="animation-delay: 1s;">
+    <span>Scroll to explore lifecycle</span>
+    <div class="arrow-down">↓</div>
+  </div>
+</section>
+
+<section id="idea" class="section">
+  <div class="container split-layout anim-trigger">
+    <div class="text-col glass-card anim-slide-left">
+      <span class="consulting-label">SECTION 01 — IDEA</span>
+      <h2>One platform, four engineered moves</h2>
+      
+      <ul class="stagger-list">
+        <li class="stagger">Advanced epoxy-composite blade skin in circular segmented sections</li>
+        <li class="stagger">Demountable suction-bucket jacket for lower install and removal burden</li>
+        <li class="stagger">Swap-ready nacelle for fast offshore replacement of critical units</li>
+        <li class="stagger">AN.Energy PIeNN layer for predictive-preventive maintenance</li>
+      </ul>
+
+      <div class="badge-group stagger">
+        <div class="badge">Modular</div>
+        <div class="badge">Lower OPEX</div>
+        <div class="badge">Cleaner EoL</div>
+      </div>
+
+      <div class="highlight-box stagger">
+        <p>"If a part is expensive to access offshore, it must be modular. If it reaches end-of-life, it must be removable."</p>
+      </div>
+    </div>
+    <div class="img-col img-wrapper fx-blueprint anim-slide-right">
+      <img src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Turbine Concept" class="tilt-img parallax-img" />
+    </div>
+  </div>
+</section>
+
+<section id="construction" class="section">
+  <div class="container split-layout reverse anim-trigger">
+    <div class="text-col glass-card anim-slide-right">
+      <span class="consulting-label">SECTION 02 — CONSTRUCTION</span>
+      <h2>Port-built circular blade architecture</h2>
+      
+      <ul class="stagger-list">
+        <li class="stagger">Manufacture compact blade segments near port using an advanced epoxy-composite shell</li>
+        <li class="stagger">Assemble the blade ring at port instead of moving one oversized monolithic blade</li>
+        <li class="stagger">Install on a suction-bucket jacket to shrink offshore lift time and noise</li>
+        <li class="stagger">Lower vessel days means lower CAPEX and lower installation carbon</li>
+      </ul>
+
+      <div class="badge-group stagger">
+        <div class="badge">Smaller loads</div>
+        <div class="badge">Fewer lifts</div>
+        <div class="badge">Lower carbon</div>
+      </div>
+
+      <div class="highlight-box stagger">
+        <p>"The cost win is logistical: shorter weather-window exposure, less transport pain, and less reliance on premium offshore vessels."</p>
+      </div>
+    </div>
+    <div class="img-col img-wrapper fx-blueprint anim-slide-left">
+      <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Port Construction" class="tilt-img parallax-img" />
+    </div>
+  </div>
+</section>
+
+<section id="operation" class="section">
+  <div class="container split-layout anim-trigger">
+    <div class="text-col glass-card anim-slide-left">
+      <span class="consulting-label">SECTION 03 — OPERATION</span>
+      <h2>AN.Energy turns a Normal turbine into a Forecastable Asset</h2>
+      
+      <ul class="stagger-list">
+        <li class="stagger">PIeNN ingests SCADA, vibration, strain, weather and electrical signatures</li>
+        <li class="stagger">Flag blade erosion, converter stress, drivetrain anomalies and foundation health are predicted early</li>
+        <li class="stagger">Using swap-ready nacelle modules to convert long repairs duration into short replacement visits</li>
+        <li class="stagger">Result: higher availability, fewer emergency interventions, lower lifetime OPEX</li>
+      </ul>
+
+      <div class="badge-group stagger">
+        <div class="badge">Predict</div>
+        <div class="badge">Act</div>
+        <div class="badge">Prevent</div>
+      </div>
+
+      <div class="highlight-box stagger">
+        <p>"Predict offshore failures earlier, then repair onshore when possible. Expensive heroics are replaced by planned swaps."</p>
+      </div>
+    </div>
+    <div class="img-col img-wrapper fx-telemetry anim-slide-right">
+      <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Turbine Data" class="tilt-img parallax-img" />
+    </div>
+  </div>
+</section>
+
+<section id="decommissioning" class="section">
+  <div class="container split-layout reverse anim-trigger">
+    <div class="text-col glass-card anim-slide-right">
+      <span class="consulting-label">SECTION 04 — DECOMMISSIONING</span>
+      <h2>Recover modules first, recycle what cannot be reused</h2>
+      
+      <ul class="stagger-list">
+        <li class="stagger">Remove the turbine in modules instead of destructive cut-and-scrap campaigns</li>
+        <li class="stagger">Reuse recovered steel and support-structure materials where site rules allow</li>
+        <li class="stagger">Repurpose intact blade segments into coastal panels, walkways or secondary composite structures</li>
+        <li class="stagger">Send damaged composite sections to grinding or chemical recovery routes</li>
+      </ul>
+
+      <div class="badge-group stagger">
+        <div class="badge">Reuse first</div>
+        <div class="badge">Recover second</div>
+        <div class="badge">Waste last</div>
+      </div>
+
+      <div class="highlight-box stagger">
+        <p>"The blade should not become landfill by default. Design it so intact sections can live a second useful life."</p>
+      </div>
+    </div>
+    <div class="img-col img-wrapper fx-decom anim-slide-left">
+      <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Recycling Report" class="tilt-img parallax-img" />
+    </div>
+  </div>
+</section>
+
+<section id="conclusion" class="section conclusion-section" style="text-align: center;">
+  
+  <div class="conclusion-bg parallax-img">
+    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="500" cy="500" r="300" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="4 12"/>
+      <circle cx="500" cy="500" r="450" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2 20"/>
+      <circle cx="500" cy="500" r="150" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="10 10"/>
+    </svg>
+  </div>
+
+  <div class="container anim-trigger" style="max-width: 1400px;">
+    <div class="anim-fade-up">
+      <span class="consulting-label">SECTION 05 — CONCLUSION</span>
+      <h2>The whole lifecycle</h2>
+      <p style="font-size: 1.15rem; color: var(--text-dark); margin-bottom: 60px;">
+        This approach is achievable in next 5-10 years of time. Though it needs intensive R&D and Testing.
+      </p>
+
+      <div class="lifecycle-flow stagger-list">
+        
+        <div class="lifecycle-node stagger">
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4>Design & port fabrication</h4>
+        </div>
+
+        <div class="lifecycle-connector stagger"><div class="flow-line"></div><div class="connector-arrow">→</div></div>
+
+        <div class="lifecycle-node stagger">
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 22h16M12 2v20M8 12l8-8M16 12L8 4"/></svg>
+          </div>
+          <h4>Offshore Assembly and Establishment</h4>
+        </div>
+
+        <div class="lifecycle-connector stagger"><div class="flow-line"></div><div class="connector-arrow">→</div></div>
+
+        <div class="lifecycle-node stagger">
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12h8M12 8v8M2 12h2M20 12h2M12 2v2M12 20v2"/></svg>
+          </div>
+          <h4>Operation + Maintenance using AN.Energy</h4>
+        </div>
+
+        <div class="lifecycle-connector stagger"><div class="flow-line"></div><div class="connector-arrow">→</div></div>
+
+        <div class="lifecycle-node stagger">
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/><path d="M12 12V2L7.5 4.5"/></svg>
+          </div>
+          <h4>Modular Removal of Parts</h4>
+        </div>
+
+        <div class="lifecycle-connector stagger"><div class="flow-line"></div><div class="connector-arrow">→</div></div>
+
+        <div class="lifecycle-node stagger">
+          <div class="node-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 12c0-4.4 3.6-8 8-8h2.5"/><path d="M9.5 1L13 4l-3.5 3"/><path d="M22 12c0 4.4-3.6 8-8 8h-2.5"/><path d="M14.5 23L11 20l3.5-3"/></svg>
+          </div>
+          <h4>Reuse & material recovery</h4>
+        </div>
+
+      </div> <div class="strategy-card stagger">
+        <p>
+          Build smaller modules → Predict faults earlier → Remove parts cleanly → Return materials to useful service
+        </p>
+      </div>
+
+      <div class="quote-block stagger">
+        <p>
+          Recovered modules, recovered materials and recovered data all feed the next turbine generation.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="team" class="section" style="text-align: center; border-bottom: none;">
+  <div class="container anim-trigger">
+    <div class="anim-fade-up">
+      <span class="consulting-label">SECTION 06 — TEAM</span>
+      <h2>Driving the Transition</h2>
+      
+      <div class="team-grid">
+        <div class="team-member stagger">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Immam" class="team-photo">
+          <div class="team-name">Immam</div>
+          <!-- <div class="team-role">Engineering</div> -->
+        </div>
+        <div class="team-member stagger">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Asad" class="team-photo">
+          <div class="team-name">Asad</div>
+          <!-- <div class="team-role">Data & Analytics</div> -->
+        </div>
+        <div class="team-member stagger">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Aniket" class="team-photo">
+          <div class="team-name">Aniket</div>
+          <!-- <div class="team-role">Systems Design</div> -->
+        </div>
+      </div>
+
+      <div style="margin-top: 90px;" class="stagger">
+        <a href="mailto:contact@an.energy" class="btn-primary">
+          Contact AN.Energy
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 1. Intersection Observer for Storytelling
+  const animObserverOptions = { threshold: 0.3, rootMargin: "0px" }; // Adjusted threshold for tighter sections
+  
+  const animObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        
+        // Stagger children
+        const staggers = entry.target.querySelectorAll('.stagger');
+        staggers.forEach((el, index) => {
+          setTimeout(() => { el.classList.add('is-visible'); }, index * 120);
+        });
+      }
+    });
+  }, animObserverOptions);
+
+  document.querySelectorAll('.anim-trigger').forEach((el) => {
+    animObserver.observe(el);
+  });
+
+  // 2. Scroll Spy & Horizontal Lifecycle Tracker Logic
+  const sections = document.querySelectorAll('.section');
+  const navDots = document.querySelectorAll('.nav-dot');
+  const lcTracker = document.getElementById('lcTracker');
+  const ltSteps = document.querySelectorAll('.lt-step');
+  const ltConns = document.querySelectorAll('.lt-connector');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    
+    // Show horizontal tracker after scrolling past hero
+    if (window.scrollY > document.getElementById('hero').offsetHeight - 100) {
+      lcTracker.classList.add('visible');
+    } else {
+      lcTracker.classList.remove('visible');
+    }
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (scrollY >= (sectionTop - sectionHeight / 2)) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    // Vertical Nav Dots
+    navDots.forEach(dot => {
+      dot.classList.remove('active');
+      if (dot.getAttribute('data-target') === current) {
+        dot.classList.add('active');
+      }
+    });
+
+    // Horizontal Lifecycle Bar Logic
+    ltSteps.forEach(step => step.classList.remove('active'));
+    ltConns.forEach(conn => conn.classList.remove('filled'));
+
+    const activeSections = ['construction', 'operation', 'decommissioning', 'conclusion', 'team'];
+
+    if (activeSections.includes(current)) {
+      document.querySelector('.lt-step[data-step="construction"]').classList.add('active');
+    }
+    if (['operation', 'decommissioning', 'conclusion', 'team'].includes(current)) {
+      document.getElementById('conn-1').classList.add('filled');
+      document.querySelector('.lt-step[data-step="operation"]').classList.add('active');
+    }
+    if (['decommissioning', 'conclusion', 'team'].includes(current)) {
+      document.getElementById('conn-2').classList.add('filled');
+      document.querySelector('.lt-step[data-step="decommissioning"]').classList.add('active');
+    }
+    if (['conclusion', 'team'].includes(current)) {
+      document.getElementById('conn-3').classList.add('filled');
+      document.querySelector('.lt-step[data-step="conclusion"]').classList.add('active');
+    }
+  });
+
+  // 3. Smooth Scroll Navigation Clicks
+  navDots.forEach(dot => {
+    dot.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // 4. Premium 3D Image Hover Tilt
+  const tiltImages = document.querySelectorAll('.tilt-img');
+  tiltImages.forEach(img => {
+    const wrapper = img.parentElement;
+    wrapper.addEventListener('mousemove', (e) => {
+      const { left, top, width, height } = wrapper.getBoundingClientRect();
+      const x = (e.clientX - left) / width - 0.5;
+      const y = (e.clientY - top) / height - 0.5;
+      const rotateY = x * 8; 
+      const rotateX = y * -8;
+      img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+    wrapper.addEventListener('mouseleave', () => {
+      img.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+    });
+  });
+
+  // 5. Subtle Scroll Parallax for Images
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    document.querySelectorAll('.parallax-img').forEach(img => {
+      const speed = 0.02;
+      img.parentElement.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  });
+</script>
+
+</body>
+</html>
