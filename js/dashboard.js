@@ -686,7 +686,7 @@ function updateMetrics() {
   setMetric('metricWindNow', State.windSpeed.toFixed(1) + ' m/s');
   setMetric('metricGridFreq', (noise(50, 0.002)).toFixed(3) + ' Hz');
   setMetric('metricCapFactor', clamp(noise(42, 0.05), 30, 65).toFixed(1) + '%');
-  setMetric('metricCostAvoided', '£' + (noise(142000, 0.02)).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+  setMetric('metricCostAvoided', '£' + (noise(4.00, 0.30)).toFixed(2) + 'M');
 }
 
 function setMetric(id, val) {
