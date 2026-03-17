@@ -493,6 +493,196 @@
   </main>
 </div>
 
+
+<style>
+  .savings-section {
+    padding: 80px 40px;
+    background: var(--bg-void);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+  
+  /* Pulsing background glow to draw the investor's eye */
+  .savings-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.05) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulse-glow 4s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulse-glow {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+  }
+
+  .savings-container {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(6, 15, 25, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 2px;
+    padding: 50px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slide-up-fade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slide-up-fade {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Animated Top Border Accent */
+  .savings-container::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), var(--cyan), transparent);
+    background-size: 200% 100%;
+    animation: shimmer-border 3s linear infinite;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+  
+  @keyframes shimmer-border {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  .savings-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ffffff, #7ab3d0);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .savings-grid {
+    display: flex;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+  }
+
+  /* Elegant Glowing Center Divider */
+  .savings-grid::before {
+    content: '';
+    position: absolute;
+    top: 15%; bottom: 15%; left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent);
+  }
+
+  .savings-col {
+    flex: 1;
+    padding: 50px 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .savings-col:hover {
+    transform: scale(1.02);
+  }
+
+  .savings-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #7ab3d0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .savings-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    position: relative;
+    line-height: 1;
+  }
+
+  .savings-value.green {
+    color: var(--green);
+    text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+  }
+  
+  /* Subtle light sweep animation over the positive savings text */
+  .savings-value.green::after {
+    content: attr(data-val);
+    position: absolute;
+    left: 0; top: 0;
+    color: #ffffff;
+    opacity: 0;
+    filter: blur(2px);
+    animation: text-sweep 5s infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes text-sweep {
+    0%, 100% { opacity: 0; transform: translateX(-15px); }
+    10% { opacity: 0.6; transform: translateX(0); }
+    20% { opacity: 0; transform: translateX(15px); }
+  }
+
+  .savings-value.red {
+    color: #ff3355;
+    text-shadow: 0 0 40px rgba(255, 51, 85, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .savings-grid { flex-direction: column; }
+    .savings-grid::before {
+      top: 50%; left: 15%; right: 15%; bottom: auto;
+      width: auto; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+    }
+    .savings-col { padding: 40px 20px; }
+    .savings-value { font-size: 48px; }
+  }
+</style>
+
+<section class="savings-section">
+  <div class="savings-container">
+    <div class="savings-title">Offshore Wind Turbine Maintenance</div>
+    <div class="savings-grid">
+      <div class="savings-col">
+        <div class="savings-label">Savings Generated by<br><span style="color:#ffffff; font-weight:700;">AN.Energy Services</span></div>
+        <div class="savings-value green" data-val="+£2.83M">+£18.23M</div>
+      </div>
+      <div class="savings-col">
+        <div class="savings-label">Present Day Scenario<br><span style="color:#ffffff; font-weight:700;">(~Overall Losses Per Month )</span></div>
+        <div class="savings-value red">-£40.20M</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════════════════════════════════
      FUNDING SECTION
 ══════════════════════════════════════════════ -->
@@ -552,7 +742,7 @@
     <div class="team-card">
       <div class="team-avatar">AS</div>
       <div class="team-name">Asad</div>
-      <!-- <div class="team-role">Electrical Systems Engineer</div> -->
+      <div class="team-role">Founder</div> 
     </div>
     <div class="team-card">
       <div><br>
@@ -629,6 +819,27 @@
 <!-- ══════════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════════ -->
+<script>
+function randomRange(min, max){
+  return (Math.random() * (max - min) + min).toFixed(2);
+}
+
+function updateSavings(){
+
+  const green = document.querySelector('.savings-value.green');
+  const red = document.querySelector('.savings-value.red');
+
+  const greenVal = randomRange(17,19);
+  const redVal = randomRange(38,41);
+
+  green.textContent = `+£${greenVal}M`;
+  red.textContent = `-£${redVal}M`;
+
+}
+
+updateSavings();
+setInterval(updateSavings, 2500);
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="js/dashboard.js"></script>
