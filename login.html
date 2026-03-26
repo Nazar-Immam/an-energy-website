@@ -810,13 +810,17 @@ animateFluctuation();
           <input id="password" type="password" placeholder="Passcode">
         </div>
         <div class="role-buttons">
-          <button class="btn-role company" onclick="login()">
+          <button type="button" class="btn-role company" onclick="login('company')">
             Company Login
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <button class="btn-role investor" onclick="login()">Investor Portal Access</button>
-          <button class="btn-role tech" onclick="login()">Technical Infrastructure</button>
+          <button type="button" class="btn-role investor" onclick="login('investor')">Investor Portal Access</button>
+          <button type="button" class="btn-role tech" onclick="login('tech')">Technical Infrastructure</button>
         </div>
+        
+        <p id="errorMsg" style="color: var(--neon-red); text-align: center; margin-top: 15px; font-size: 14px; display: none;">
+          Access Denied. Invalid credentials.
+        </p>
       </div>
     </section>
 
@@ -923,62 +927,53 @@ animateFluctuation();
     });
 
     // 4. Mock Login Redirect
-    function login(role = "company") {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+    // 4. Secure Login & Redirect Logic
+    function login(role) {
+      const userVal = document.getElementById('username').value;
+      const passVal = document.getElementById('password').value;
+      const errorMsg = document.getElementById('errorMsg');
+      const card = document.querySelector('.login-card');
 
-    const card = document.querySelector(".login-card");
+      // Define accepted usernames and passwords for each role
+      const credentials = {
+        company:  { u: "admin", p: "2026" },
+        investor: { u: "investor", p: "2026" },
+        tech:     { u: "tech", p: "2026" }
+      };
 
-    // HARD CODED CREDENTIALS (role-based)
-    const credentials = {
-        company: { user: "ANN.Energy", pass: "2026" },
-        investor: { user: "Investor", pass: "1970" },
-        tech: { user: "Tech", pass: "0791" }
-    };
+      const validUser = credentials[role].u;
+      const validPass = credentials[role].p;
 
-    // detect which button clicked
-    if (event.target.classList.contains("investor")) role = "investor";
-    if (event.target.classList.contains("tech")) role = "tech";
+      // Check if input matches the required credentials
+      if (userVal === validUser && passVal === validPass) {
+        
+        // Hide error if it was showing
+        errorMsg.style.display = "none";
+        
+        // Optional: Save login state to browser memory
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("role", role);
 
-    // validation
-    if (!username || !password) {
-        triggerError("Enter credentials");
-        return;
+        // Smooth cinematic fade out
+        document.body.style.transition = "opacity 0.6s ease";
+        document.body.style.opacity = "0";
+
+        // Redirect to the dashboard after fade out
+        setTimeout(() => {
+          window.location.assign("index.html"); 
+        }, 600);
+
+      } else {
+        // Show error message
+        errorMsg.style.display = "block";
+        
+        // Shake animation for incorrect password
+        card.style.transform = "translateX(-10px)";
+        setTimeout(() => card.style.transform = "translateX(10px)", 50);
+        setTimeout(() => card.style.transform = "translateX(-10px)", 100);
+        setTimeout(() => card.style.transform = "translateX(0)", 150);
+      }
     }
-
-    // loading state
-    const btn = event.target;
-    const originalText = btn.innerText;
-    btn.innerText = "Authenticating...";
-    btn.disabled = true;
-
-  setTimeout(() => {
-    const valid = credentials[role];
-
-    if (username === valid.user && password === valid.pass) {
-      
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("role", role);
-
-      // smooth cinematic exit
-      document.body.style.transition = "opacity 0.6s ease";
-      document.body.style.opacity = "0";
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 600);
-
-    } else {
-      triggerError("Access Denied");
-      btn.innerText = originalText;
-      btn.disabled = false;
-
-      card.classList.add("shake");
-      setTimeout(() => card.classList.remove("shake"), 400);
-    }
-  }, 1200);
-}
-
 function triggerError(msg) {
   let error = document.querySelector(".error-box");
 
