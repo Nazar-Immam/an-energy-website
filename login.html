@@ -1,102 +1,1015 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AN.Energy Access</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANN.Energy — The Future of Power</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       BASE & CINEMATIC RESET
+    ============================================================ */
+    :root {
+      --bg-abyss: #030508;
+      --glass-bg: rgba(12, 16, 24, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --text-main: #f5f5f7;
+      --text-muted: #86868b;
+      --neon-green: #00ff88;
+      --neon-green-dim: #00cc6a;
+      --neon-red: #ff3355;
+      --glow-green: rgba(0, 255, 136, 0.3);
+      --glow-red: rgba(255, 51, 85, 0.3);
+      --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-<style>
-body{
-    font-family: Inter, sans-serif;
-    background:#f7f9fb;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-abyss);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       ANIMATED ENERGY BACKGROUND
+    ============================================================ */
+    .energy-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #050a12 0%, var(--bg-abyss) 100%);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.4;
+      animation: float 20s infinite ease-in-out alternate;
+    }
+
+    .orb.green {
+      width: 60vw; height: 60vh;
+      background: var(--neon-green);
+      top: -20%; left: -10%;
+    }
+
+    .orb.blue {
+      width: 50vw; height: 50vh;
+      background: #0088ff;
+      bottom: -10%; right: -10%;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(10vw, 10vh) scale(1.1); }
+    }
+
+    /* Grid Overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: -1;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 80px;
+    }
+
+    /* ============================================================
+       HEADER (VISIONARY)
+    ============================================================ */
+    .header {
+      text-align: center;
+      animation: fadeUp 1.2s ease-out;
+    }
+
+    .logo {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo .ann {
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    /* Shimmering Green E */
+    .logo .e-glow {
+      background: linear-gradient(135deg, #00ff88 0%, #ffffff 50%, #00ff88 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      animation: shimmer 3s linear infinite;
+      text-shadow: 0 0 30px var(--glow-green);
+    }
+
+    .logo .nergy {
+      color: #ffffff; /* Charcoal */
+    }
+
+    .mission {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+    }
+
+    @keyframes shimmer {
+      to { background-position: 200% center; }
+    }
+
+    /* ============================================================
+       SAVINGS HERO CARD (Live Dashboard Feel)
+    ============================================================ */
+    .savings-hero {
+      width: 100%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 50px;
+      box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+      animation: fadeUp 1s 0.2s ease-out forwards;
+      opacity: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated scanning line */
+    .savings-hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+      animation: scanline 4s linear infinite;
+      box-shadow: 0 0 15px var(--neon-green);
+    }
+
+    @keyframes scanline {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(300px); opacity: 0; }
+    }
+
+    .savings-grid {
+      display: flex;
+      position: relative;
+    }
+
+    .savings-grid::before {
+      content: '';
+      position: absolute;
+      top: 10%; bottom: 10%; left: 50%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+    }
+
+    .savings-col {
+      flex: 1;
+      text-align: center;
+      padding: 20px;
+      transition: var(--transition);
+    }
+
+    .savings-col:hover { transform: scale(1.05); }
+
+    .savings-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .savings-label span { color: #ffffff; }
+
+    .savings-value {
+      font-size: 4.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .savings-value.green {
+      color: var(--neon-green);
+      text-shadow: 0 0 40px var(--glow-green);
+    }
+
+    .savings-value.red {
+      color: var(--neon-red);
+      text-shadow: 0 0 40px var(--glow-red);
+    }
+
+    /* ============================================================
+       LOGIN SECTION (Floating Glass Card)
+    ============================================================ */
+    .login-section {
+      width: 100%;
+      max-width: 440px;
+      animation: fadeUp 1s 0.4s ease-out forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .login-card {
+      background: rgba(10, 14, 20, 0.6);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      transition: var(--transition);
+    }
+
+    .login-card:hover {
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 40px 80px rgba(0, 255, 136, 0.1);
+    }
+
+    .inputs { display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; }
+
+    input {
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: white;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    input::placeholder { color: #55555c; }
+    input:focus {
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 136, 0.05);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+    }
+
+    .role-buttons { display: flex; flex-direction: column; gap: 16px; }
+
+    .btn-role {
+      width: 100%;
+      padding: 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Company Login - Primary CTA */
+    .btn-role.company {
+      background: var(--neon-green);
+      color: #000000;
+      box-shadow: 0 0 20px var(--glow-green);
+    }
+    .btn-role.company:hover {
+      background: #00ff9d;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+    }
+
+    /* Investor Login - Sleek/Exclusive */
+    .btn-role.investor {
+      background: linear-gradient(135deg, #2a2a35, #121218);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-role.investor:hover {
+      border-color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+    }
+
+    /* Technical Login - Minimal */
+    .btn-role.tech {
+      background: transparent;
+      color: var(--text-muted);
+      border: 0.1px solid beige;
+    }
+    .btn-role.tech:hover {
+      color: white;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* ============================================================
+       FUNDING BAR (Irresistible FOMO)
+    ============================================================ */
+    .funding-fomo {
+      width: 100%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 40px;
+      animation: fadeUp 1s 0.6s ease-out forwards;
+      opacity: 0;
+      text-align: center;
+    }
+
+    .funding-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .funding-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .funding-target {
+      font-size: 1.5rem;
+      color: white;
+      font-weight: 800;
+    }
+
+    .funding-bar-track {
+      height: 12px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .funding-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0088ff, var(--neon-green));
+      border-radius: 10px;
+      position: relative;
+      transition: width 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 20px var(--neon-green);
+    }
+
+    /* Pulsing tip on progress bar */
+    .funding-bar-fill::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 20px;
+      background: #ffffff;
+      filter: blur(4px);
+      animation: pulse-tip 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-tip {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    .funding-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .f-stat { text-align: left; }
+    .f-stat-val { font-size: 1.25rem; font-weight: 700; color: white; }
+    .f-stat-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .f-stat-val.accent { color: var(--neon-green); }
+
+    /* ============================================================
+       CINEMATIC QUOTE SECTION (Visionaries)
+    ============================================================ */
+    .cinematic-quote {
+      width: 100vw;
+      height:auto;
+      position: relative;
+      padding: 150px 20px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      animation: fadeUp 1s 0.8s ease-out forwards;
+      opacity: 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, transparent 70%);
+    }
+
+    /* Ghost Portraits */
+    .portrait {
+  position: absolute;
+  height: 120%;
+  width: auto;
+  object-fit: cover;
+  filter: grayscale(100%) blur(3px);
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  pointer-events: none;
+
+  /* Combined mask */
+  mask-image: 
+    radial-gradient(ellipse at center, black 30%, transparent 80%),
+    linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+
+  -webkit-mask-image: 
+    radial-gradient(ellipse at center, black 30%, transparent 80%),
+    linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+
+  mask-composite: intersect;
+  -webkit-mask-composite: destination-in;
+
+  transition: transform 0.1s linear;
 }
 
-.login-box{
-    background:white;
-    padding:40px;
-    border-radius:12px;
-    width:320px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    .portrait.jobs {
+      left: -3%;
+       top: 1%; 
+      height: 720px;
+      opacity: 0.3;
+    }
+
+    .portrait.asad {
+      right: 3%;
+      top: 10%;
+      opacity: 0.3;
+      height: 690px;
+    }
+
+    /* Foreground Quote Text */
+    .quote-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.3;
+      margin-bottom: 30px;
+      background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    }
+
+    .quote-author {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neon-green);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+    }
+
+    .quote-author span { color: var(--text-muted); }
+
+    /* ============================================================
+       FOUNDER TRAITS (ADDED TO CINEMATIC QUOTE)
+    ============================================================ */
+    .founder-traits {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .trait-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .trait-heading {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      opacity: 0.75;
+      margin: 0;
+    }
+
+    .trait-items {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--text-main);
+      letter-spacing: 0.12em;
+      opacity: 0.85;
+      margin: 0;
+    }
+
+    .trait-dot {
+      color: var(--neon-green-dim);
+      opacity: 0.4;
+      margin: 0 10px;
+      font-size: 0.8rem;
+    }
+
+    .trait-signature {
+      margin-top: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 800px) {
+      .savings-grid { flex-direction: column; }
+      .savings-grid::before {
+        top: 50%; left: 10%; right: 10%; bottom: auto;
+        width: auto; height: 1px;
+      }
+      .savings-value { font-size: 3.5rem; }
+      .portrait { opacity: 0.08; }
+      .logo { font-size: 3rem; }
+    }
+    
+    /* ============================================================
+        PREMIUM CINEMATIC FOOTER
+    ============================================================ */
+    .premium-footer {
+    width: 100%;
+    max-width: 1100px;
+    margin: 80px auto 0;
+    padding: 30px 20px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 10;
+    animation: fadeUp 1s 1s ease-out forwards;
+    opacity: 0;
+    }
+
+    .footer-links {
+    display: flex;
+    gap: 24px;
+    }
+
+    .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    }
+
+    .footer-links a:hover {
+    color: var(--text-main);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .system-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--neon-green-dim);
+    }
+
+    .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--neon-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-green);
+    animation: pulse-dot 2s infinite alternate;
+    }
+
+    @keyframes pulse-dot {
+    from { opacity: 0.4; box-shadow: 0 0 4px var(--neon-green); }
+    to { opacity: 1; box-shadow: 0 0 16px var(--neon-green); }
+    }
+
+    @media (max-width: 768px) {
+    .premium-footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+
+    .login-section {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at 20% 20%, #0a0f1c, #05070d 70%);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .login-card {
+    width: 380px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 40px rgba(0,255,150,0.05);
+    transition: 0.4s ease;
+    }
+
+.login-card:hover {
+  box-shadow: 0 0 60px rgba(0,255,150,0.15);
 }
 
-h2{
-    text-align:center;
-    margin-bottom:20px;
+.inputs input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:6px;
-    border:1px solid #ddd;
+.inputs input:focus {
+  border-color: #00ffae;
+  box-shadow: 0 0 10px rgba(0,255,174,0.3);
 }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:6px;
-    background:#0f766e;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
+.role-buttons button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
-button:hover{
-    background:#0d9488;
+.btn-role.company {
+  background: linear-gradient(90deg, #00ffae, #00c3ff);
+  color: #000;
 }
 
-.error{
-    color:red;
-    font-size:14px;
-    display:none;
+.btn-role.investor {
+  background: rgba(255,255,255,0.05);
+  color: #00ffae;
+  border: 1px solid rgba(0,255,174,0.2);
 }
-</style>
 
+.btn-role.tech {
+  background: rgba(255,255,255,0.03);
+  color: #aaa;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.role-buttons button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 20px rgba(0,255,174,0.2);
+}
+
+/* Error UI */
+.error-box {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-top: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+/* Shake animation */
+.shake {
+  animation: shake 0.35s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+    }
+  </style>
 </head>
 <body>
 
-<div class="login-box">
+  <div class="energy-bg">
+    <div class="orb green"></div>
+    <div class="orb blue"></div>
+  </div>
+  <div class="grid-overlay"></div>
 
-<h2>AN.Energy Access</h2>
+  <div class="container">
+    
+    <header class="header">
+      <h1 class="logo">
+        <span class="ann"></span><span class="e-glow">ANN.E</span><span class="nergy">nergy</span>
+      </h1>
+      <p class="mission">Intelligence driving the future of zero-downtime renewable energy. The operating system for a sustainable world.</p>
+    </header>
 
-<input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-<p class="error" id="error">Invalid credentials</p>
-
-</div>
+   <section class="savings-hero">
+  <div class="savings-grid">
+    <div class="savings-col">
+      <div class="savings-label">Savings Generated by <br><span>ANN.Energy Services</span></div>
+      <div class="savings-value green" data-min="17" data-max="19">+£<span class="counter">17.00</span>M</div>
+    </div>
+    <div class="savings-col">
+      <div class="savings-label">Present Day Scenario <br><span>(Without ANN.Energy)</span></div>
+      <div class="savings-value red" data-min="38" data-max="41">-£<span class="counter">38.00</span>M</div>
+    </div>
+  </div>
+</section>
 
 <script>
+function animateFluctuation() {
+  document.querySelectorAll('.savings-value').forEach(el => {
+    const min = parseFloat(el.getAttribute('data-min'));
+    const max = parseFloat(el.getAttribute('data-max'));
+    const counter = el.querySelector('.counter');
 
-const USERNAME = "AN.Energy";
-const PASSWORD = "2026";
-
-function login(){
-
-const u = document.getElementById("username").value;
-const p = document.getElementById("password").value;
-
-if(u === USERNAME && p === PASSWORD){
-
-    sessionStorage.setItem("auth","true");
-    window.location.href = "index.html";
-
-}else{
-
-document.getElementById("error").style.display="block";
-
+    setInterval(() => {
+      const value = (Math.random() * (max - min) + min).toFixed(2);
+      counter.textContent = value;
+    }, 1200); // speed of fluctuation
+  });
 }
 
-}
-
+animateFluctuation();
 </script>
+    <section class="login-section">
+      <div class="login-card">
+        <div class="inputs">
+          <input id="username" type="text" placeholder="Secure ID / Email">
+          <input id="password" type="password" placeholder="Passcode">
+        </div>
+        <div class="role-buttons">
+          <button class="btn-role company" onclick="login()">
+            Company Login
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-role investor" onclick="login()">Investor Portal Access</button>
+          <button class="btn-role tech" onclick="login()">Technical Infrastructure</button>
+        </div>
+      </div>
+    </section>
 
+    <section class="funding-fomo">
+      <div class="funding-header">
+        <div class="funding-title">Current</div>
+        <div class="funding-target">Goal: £1,000,000</div>
+      </div>
+
+      <div class="funding-bar-track">
+        <div class="funding-bar-fill" id="fundingFill"></div>
+      </div>
+
+      <div class="funding-stats">
+        <div class="f-stat">
+          <div class="f-stat-val accent">£51,000</div>
+          <div class="f-stat-lbl">Capital Secured</div>
+        </div>
+        <div class="f-stat">
+          <div class="f-stat-val"></div>
+          <div class="f-stat-lbl"></div>
+        </div>
+        <div class="f-stat" style="text-align: right;">
+          <div class="f-stat-val" style="color: #ff3355;">34 Days</div>
+          <div class="f-stat-lbl">Remaining</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="cinematic-quote" id="quoteSection">
+    <img src="assets/steve.webp" alt="Visionary Left" class="portrait jobs" id="port1">
+    <img src="assets/Asad.jpeg" alt="Visionary Right" class="portrait asad" id="port2">
+    
+    <div class="quote-content">
+      <p class="quote-text">"Built on timeless principles of precision and vision, extended through intelligence, systems, and scale."</p>
+      
+      <div class="founder-traits">
+        <div class="trait-block">
+          <h5 class="trait-heading">Core Principles</h5>
+          <p class="trait-items">Perfectionist <span class="trait-dot">•</span> Persuasive <span class="trait-dot">•</span> Visionary</p>
+        </div>
+
+        <div class="trait-block">
+          <h5 class="trait-heading">Extended For Today</h5>
+          <p class="trait-items">Well-Educated <span class="trait-dot">•</span> Innovator <span class="trait-dot">•</span> Network Builder</p>
+        </div>
+
+        <div class="trait-signature">~ Asad</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // 1. Funding Bar Animation
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('fundingFill').style.width = '8%';
+      }, 1000);
+      startCounters();
+    });
+
+    // 2. Number Counter Animation for Savings Hero
+    function startCounters() {
+      const counters = document.querySelectorAll('.counter');
+      const duration = 2000; // 2 seconds
+
+      counters.forEach(counter => {
+        const target = parseFloat(counter.parentElement.getAttribute('data-target'));
+        const startTime = performance.now();
+
+        function updateCounter(currentTime) {
+          const elapsedTime = currentTime - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          
+          // Easing function (easeOutExpo)
+          const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          const currentVal = (target * easeProgress).toFixed(2);
+          
+          counter.innerText = currentVal;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.innerText = target.toFixed(2);
+          }
+        }
+        requestAnimationFrame(updateCounter);
+      });
+    }
+
+    // 3. Subtle Parallax for Quote Portraits based on Mouse Movement
+    const quoteSection = document.getElementById('quoteSection');
+    const port1 = document.getElementById('port1');
+    const port2 = document.getElementById('port2');
+
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20; // max 20px movement
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      
+      port1.style.transform = `translate(${x}px, ${y}px)`;
+      port2.style.transform = `translate(${-x}px, ${-y}px)`; // move in opposite direction
+    });
+
+    // 4. Mock Login Redirect
+    function login(role = "company") {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const card = document.querySelector(".login-card");
+
+    // HARD CODED CREDENTIALS (role-based)
+    const credentials = {
+        company: { user: "ANN.Energy", pass: "2026" },
+        investor: { user: "Investor", pass: "1970" },
+        tech: { user: "Tech", pass: "0791" }
+    };
+
+    // detect which button clicked
+    if (event.target.classList.contains("investor")) role = "investor";
+    if (event.target.classList.contains("tech")) role = "tech";
+
+    // validation
+    if (!username || !password) {
+        triggerError("Enter credentials");
+        return;
+    }
+
+    // loading state
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = "Authenticating...";
+    btn.disabled = true;
+
+  setTimeout(() => {
+    const valid = credentials[role];
+
+    if (username === valid.user && password === valid.pass) {
+      
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", role);
+
+      // smooth cinematic exit
+      document.body.style.transition = "opacity 0.6s ease";
+      document.body.style.opacity = "0";
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 600);
+
+    } else {
+      triggerError("Access Denied");
+      btn.innerText = originalText;
+      btn.disabled = false;
+
+      card.classList.add("shake");
+      setTimeout(() => card.classList.remove("shake"), 400);
+    }
+  }, 1200);
+}
+
+function triggerError(msg) {
+  let error = document.querySelector(".error-box");
+
+  if (!error) {
+    error = document.createElement("div");
+    error.id = "errorBox"; // important
+    error.className = "error-box";
+    document.querySelector(".login-card").appendChild(error);
+  }
+
+  error.innerText = msg;
+  error.style.opacity = "1";
+}
+</script>
+  </script>
+  <footer class="premium-footer">
+  <div class="footer-copy">
+    &copy; 2026 ANN.Energy. The future of zero-downtime power.
+  </div>
+  
+  <div class="footer-links">
+    <a href="#">Security Protocol</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Investor Relations</a>
+  </div>
+  
+  <div class="system-status">
+    <div class="status-dot"></div>
+    Core Neural Net Online
+  </div>
+</footer>
 </body>
 </html>
