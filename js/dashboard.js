@@ -846,7 +846,7 @@ function initScrollObserver() {
 function initFunding() {
   const fill = document.getElementById('fundingFill');
   if (!fill) return;
-  const targetPct = 8;
+  const targetPct = 3;
   setTimeout(() => {
     fill.style.width = targetPct + '%';
   }, 500);
