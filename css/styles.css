@@ -61,6 +61,7 @@ body {
   cursor: crosshair;
 }
 
+
 /* Scanline overlay */
 body::before {
   content: '';
@@ -1013,6 +1014,7 @@ body::before {
   text-align: center;
 }
 
+
 .section-title {
   font-family: var(--font-display);
   font-size: 11px;
@@ -1031,19 +1033,23 @@ body::before {
   margin-bottom: 48px;
 }
 
+
 .team-grid {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 160px); /* fixed column width */
+  gap: 50px; /* give proper spacing */
+  justify-content: center; /* centers whole grid */
+  justify-items: center;
+  align-items: center;
+  margin: 0 auto; /* keeps it centered */
 }
 
 .team-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  width: 160px;
+  gap: 6px;
+  width: 100px; /* increase from 10px */
   transition: var(--transition);
 }
 
